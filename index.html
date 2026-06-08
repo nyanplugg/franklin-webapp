@@ -28,6 +28,11 @@
         .card.gift { border-color: #4CAF50; }
         .price { font-size: 36px; font-weight: bold; color: #4CAF50; }
         .price span { font-size: 16px; color: #888; }
+        .savings {
+            font-size: 14px;
+            color: #4CAF50;
+            margin-top: 4px;
+        }
         .features { list-style: none; margin: 15px 0; }
         .features li { padding: 5px 0; }
         .btn {
@@ -59,13 +64,14 @@
 
     <div class="card">
         <h3>💎 Premium подписка</h3>
-        <div class="price">199<span>₽/мес</span></div>
+        <div class="price" id="totalPrice">199<span>₽</span></div>
+        <div class="savings" id="savingsText"></div>
         
         <select id="monthsSelect" onchange="updatePrice()">
             <option value="1">1 месяц — 199₽</option>
-            <option value="3">3 месяца — 539₽</option>
-            <option value="6">6 месяцев — 999₽</option>
-            <option value="12">12 месяцев — 1799₽</option>
+            <option value="3">3 месяца — 539₽ (экономия 58₽)</option>
+            <option value="6">6 месяцев — 999₽ (экономия 195₽)</option>
+            <option value="12">12 месяцев — 1799₽ (экономия 589₽)</option>
         </select>
 
         <ul class="features">
@@ -75,7 +81,7 @@
             <li>✅ HAPP и v2RayTun</li>
         </ul>
 
-        <button class="btn green" onclick="buySubscription()">Купить за 199₽</button>
+        <button class="btn green" id="buyBtn" onclick="buySubscription()">Купить за 199₽</button>
     </div>
 
     <div class="card">
@@ -92,12 +98,22 @@
         tg.ready();
 
         const PRICES = {1: 199, 3: 539, 6: 999, 12: 1799};
+        const SAVINGS = {1: 0, 3: 58, 6: 195, 12: 589};
 
         function updatePrice() {
             const months = document.getElementById('monthsSelect').value;
             const price = PRICES[months];
-            document.querySelector('.price').innerHTML = price + '<span>₽/мес</span>';
-            document.querySelector('.btn.green:last-child').textContent = 'Купить за ' + price + '₽';
+            const saving = SAVINGS[months];
+            
+            document.getElementById('totalPrice').innerHTML = price + '<span>₽</span>';
+            
+            if (saving > 0) {
+                document.getElementById('savingsText').textContent = 'Вы экономите ' + saving + '₽';
+            } else {
+                document.getElementById('savingsText').textContent = '';
+            }
+            
+            document.getElementById('buyBtn').textContent = 'Купить за ' + price + '₽';
         }
 
         function getTrial() {
