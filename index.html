@@ -7,105 +7,61 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0A0E0C;
-            color: #E8EDE9;
-            padding: 20px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0A0E0C; color: #E8EDE9; padding: 20px; max-width: 500px; margin: 0 auto; }
         .header { text-align: center; padding: 30px 0; }
         .header h1 { font-size: 28px; font-weight: 700; }
         .header p { color: #5C6B63; margin-top: 8px; font-size: 14px; }
-        .card {
-            background: #111714;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-        }
+        .card { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; margin-bottom: 15px; }
         .card.gift { border-color: rgba(76, 175, 80, 0.3); }
         .price { font-size: 36px; font-weight: 700; color: #4CAF50; }
         .price span { font-size: 16px; color: #5C6B63; font-weight: 400; }
         .savings { font-size: 13px; color: #4CAF50; margin-top: 4px; }
-        .btn {
-            width: 100%; padding: 14px; border: none;
-            border-radius: 12px; font-size: 15px;
-            font-weight: 600; cursor: pointer; margin-bottom: 8px;
-            text-align: center; transition: all 0.2s;
-        }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 8px; text-align: center; transition: all 0.2s; }
         .btn.green { background: #4CAF50; color: #fff; }
         .btn.stars { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.sbp { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.crypto { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
-        select {
-            width: 100%; padding: 12px; background: #1A211E;
-            color: #E8EDE9; border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px; font-size: 15px; margin-bottom: 15px;
-        }
-        .crypto-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0;
-        }
-        .crypto-btn {
-            padding: 14px 8px; background: #111714; border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px; text-align: center; cursor: pointer; font-size: 13px; color: #9BAAA2; font-weight: 500;
-        }
+        select { width: 100%; padding: 12px; background: #1A211E; color: #E8EDE9; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; font-size: 15px; margin-bottom: 15px; }
+        .crypto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
+        .crypto-btn { padding: 14px 8px; background: #111714; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; text-align: center; cursor: pointer; font-size: 13px; color: #9BAAA2; font-weight: 500; }
         .crypto-btn:active { border-color: #4CAF50; color: #4CAF50; }
         .hidden { display: none; }
-        .back-btn {
-            color: #5C6B63; cursor: pointer; font-size: 13px; margin-bottom: 12px; display: inline-block;
-        }
+        .back-btn { color: #5C6B63; cursor: pointer; font-size: 16px; margin-bottom: 12px; display: inline-block; padding: 8px 0; }
         h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Franklin VPN</h1>
-        <p>Свободный интернет без границ</p>
-    </div>
-
+    <div class="header"><h1>Franklin VPN</h1><p>Свободный интернет без границ</p></div>
     <div id="screen-plans">
-        <div class="card gift">
-            <h3>Пробный период</h3>
-            <p style="color: #5C6B63; margin: 8px 0; font-size: 14px;">3 дня PREMIUM бесплатно</p>
-            <button class="btn green" onclick="getTrial()">Получить бесплатно</button>
-        </div>
-
+        <div class="card gift"><h3>Пробный период</h3><p style="color:#5C6B63;margin:8px 0;font-size:14px;">3 дня PREMIUM бесплатно</p><button class="btn green" onclick="getTrial()">Получить бесплатно</button></div>
         <div class="card">
             <h3>Premium подписка</h3>
-            <div class="price" id="totalPrice">199<span>₽</span></div>
-            <div class="savings" id="savingsText"></div>
-
+            <div class="price" id="totalPrice">199<span>₽</span></div><div class="savings" id="savingsText"></div>
             <select id="monthsSelect" onchange="updatePrice()">
                 <option value="1">1 месяц — 199₽</option>
                 <option value="3">3 месяца — 539₽ (экономия 58₽)</option>
                 <option value="6">6 месяцев — 999₽ (экономия 195₽)</option>
                 <option value="12">12 месяцев — 1799₽ (экономия 589₽)</option>
             </select>
-
             <button class="btn green" id="buyBtn" onclick="showPaymentMethods()">Купить за 199₽</button>
         </div>
     </div>
-
     <div id="screen-payment" class="hidden">
         <div class="back-btn" onclick="showPlans()">← Назад к тарифам</div>
         <div class="card">
             <h3>Выберите способ оплаты</h3>
-            <p style="color: #5C6B63; margin: 8px 0 16px; font-size: 14px;" id="paymentAmount">Сумма: 199₽</p>
-
+            <p style="color:#5C6B63;margin:8px 0 16px;font-size:14px;" id="paymentAmount">Сумма: 199₽</p>
             <button class="btn stars" onclick="payStars()">Telegram Stars</button>
             <button class="btn sbp" onclick="paySBP()">СБП (карта)</button>
             <button class="btn crypto" onclick="showCrypto()">Криптовалюта</button>
         </div>
     </div>
-
     <div id="screen-crypto" class="hidden">
         <div class="back-btn" onclick="showPaymentMethods()">← К способам оплаты</div>
         <div class="card">
             <h3>Выберите монету</h3>
-            <p style="color: #5C6B63; margin: 8px 0 16px; font-size: 14px;" id="cryptoAmount">Сумма: 199₽</p>
+            <p style="color:#5C6B63;margin:8px 0 16px;font-size:14px;" id="cryptoAmount">Сумма: 199₽</p>
             <div class="crypto-grid">
                 <button class="crypto-btn" onclick="payCrypto('USDT')">USDT</button>
                 <button class="crypto-btn" onclick="payCrypto('ETH')">ETH</button>
@@ -119,86 +75,34 @@
             </div>
         </div>
     </div>
-
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        const PRICES = {1: 199, 3: 539, 6: 999, 12: 1799};
-        const SAVINGS = {1: 0, 3: 58, 6: 195, 12: 589};
-
-        function updatePrice() {
-            const months = document.getElementById('monthsSelect').value;
-            const price = PRICES[months];
-            const saving = SAVINGS[months];
-            document.getElementById('totalPrice').innerHTML = price + '<span>₽</span>';
-            document.getElementById('savingsText').textContent = saving > 0 ? 'Вы экономите ' + saving + '₽' : '';
-            document.getElementById('buyBtn').textContent = 'Купить за ' + price + '₽';
+        const tg = window.Telegram.WebApp; tg.expand(); tg.ready();
+        const PRICES = {1:199,3:539,6:999,12:1799};
+        const SAVINGS = {1:0,3:58,6:195,12:589};
+        const BOT = 'https://t.me/FranklinVPN_bot?start=';
+        function updatePrice(){
+            const m=document.getElementById('monthsSelect').value;
+            const p=PRICES[m];
+            document.getElementById('totalPrice').innerHTML=p+'<span>₽</span>';
+            document.getElementById('savingsText').textContent=SAVINGS[m]>0?'Вы экономите '+SAVINGS[m]+'₽':'';
+            document.getElementById('buyBtn').textContent='Купить за '+p+'₽';
         }
-
-        function showPlans() {
-            document.getElementById('screen-plans').classList.remove('hidden');
-            document.getElementById('screen-payment').classList.add('hidden');
-            document.getElementById('screen-crypto').classList.add('hidden');
-        }
-
-        function showPaymentMethods() {
-            const price = PRICES[document.getElementById('monthsSelect').value];
-            document.getElementById('paymentAmount').textContent = 'Сумма: ' + price + '₽';
+        function showPlans(){document.getElementById('screen-plans').classList.remove('hidden');document.getElementById('screen-payment').classList.add('hidden');document.getElementById('screen-crypto').classList.add('hidden');}
+        function showPaymentMethods(){
+            document.getElementById('paymentAmount').textContent='Сумма: '+PRICES[document.getElementById('monthsSelect').value]+'₽';
             document.getElementById('screen-plans').classList.add('hidden');
             document.getElementById('screen-payment').classList.remove('hidden');
             document.getElementById('screen-crypto').classList.add('hidden');
         }
-
-        function showCrypto() {
-            const price = PRICES[document.getElementById('monthsSelect').value];
-            document.getElementById('cryptoAmount').textContent = 'Сумма: ' + price + '₽';
+        function showCrypto(){
+            document.getElementById('cryptoAmount').textContent='Сумма: '+PRICES[document.getElementById('monthsSelect').value]+'₽';
             document.getElementById('screen-payment').classList.add('hidden');
             document.getElementById('screen-crypto').classList.remove('hidden');
         }
-
-        function getTrial() {
-            tg.sendData(JSON.stringify({ action: 'get_trial' }));
-            tg.showPopup({
-                title: 'Готово',
-                message: 'Пробный ключ на 3 дня придёт в чат с ботом',
-                buttons: [{type: 'ok'}]
-            });
-        }
-
-        function payStars() {
-            const months = document.getElementById('monthsSelect').value;
-            const price = PRICES[months];
-            tg.sendData(JSON.stringify({ action: 'pay_stars', months: months, price: price }));
-            tg.showPopup({
-                title: 'Оплата звёздами',
-                message: 'Счёт будет выставлен в чате с ботом',
-                buttons: [{type: 'ok'}]
-            });
-        }
-
-        function paySBP() {
-            const months = document.getElementById('monthsSelect').value;
-            const price = PRICES[months];
-            tg.sendData(JSON.stringify({ action: 'pay_sbp', months: months, price: price }));
-            tg.showPopup({
-                title: 'Оплата по СБП',
-                message: 'Инструкция по оплате придёт в чат с ботом',
-                buttons: [{type: 'ok'}]
-            });
-        }
-
-        function payCrypto(asset) {
-            const months = document.getElementById('monthsSelect').value;
-            const price = PRICES[months];
-            tg.sendData(JSON.stringify({ action: 'pay_crypto', months: months, price: price, asset: asset }));
-            tg.showPopup({
-                title: 'Оплата криптовалютой',
-                message: 'Счёт будет создан в чате с ботом',
-                buttons: [{type: 'ok'}]
-            });
-        }
+        function getTrial(){tg.openTelegramLink(BOT+'trial');}
+        function payStars(){tg.openTelegramLink(BOT+'stars_'+document.getElementById('monthsSelect').value);}
+        function paySBP(){tg.openTelegramLink(BOT+'sbp_'+document.getElementById('monthsSelect').value);}
+        function payCrypto(a){tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);}
     </script>
 </body>
 </html>
