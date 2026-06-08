@@ -16,19 +16,19 @@
         .price { font-size: 36px; font-weight: 700; color: #4CAF50; }
         .price span { font-size: 16px; color: #5C6B63; font-weight: 400; }
         .savings { font-size: 13px; color: #4CAF50; margin-top: 4px; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 8px; text-align: center; transition: all 0.2s; }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 10px; text-align: center; transition: all 0.2s; }
         .btn.green { background: #4CAF50; color: #fff; }
         .btn.stars { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.sbp { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.crypto { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
-        select { width: 100%; padding: 12px; background: #1A211E; color: #E8EDE9; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; font-size: 15px; margin-bottom: 15px; }
-        .crypto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
-        .crypto-btn { padding: 14px 8px; background: #111714; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; text-align: center; cursor: pointer; font-size: 13px; color: #9BAAA2; font-weight: 500; }
+        select { width: 100%; padding: 14px; background: #1A211E; color: #E8EDE9; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; font-size: 15px; margin-bottom: 15px; }
+        .crypto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .crypto-btn { padding: 16px 8px; background: #111714; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; text-align: center; cursor: pointer; font-size: 14px; color: #9BAAA2; font-weight: 500; }
         .crypto-btn:active { border-color: #4CAF50; color: #4CAF50; }
         .hidden { display: none; }
-        .back-btn { color: #5C6B63; cursor: pointer; font-size: 16px; margin-bottom: 12px; display: inline-block; padding: 8px 0; }
-        h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .back-btn { color: #4CAF50; cursor: pointer; font-size: 18px; margin-bottom: 15px; display: inline-block; padding: 12px 0; font-weight: 600; text-decoration: none; }
+        h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
     </style>
 </head>
 <body>
@@ -51,7 +51,7 @@
         <div class="back-btn" onclick="showPlans()">← Назад к тарифам</div>
         <div class="card">
             <h3>Выберите способ оплаты</h3>
-            <p style="color:#5C6B63;margin:8px 0 16px;font-size:14px;" id="paymentAmount">Сумма: 199₽</p>
+            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="paymentAmount">Сумма: 199₽</p>
             <button class="btn stars" onclick="payStars()">Telegram Stars</button>
             <button class="btn sbp" onclick="paySBP()">СБП (карта)</button>
             <button class="btn crypto" onclick="showCrypto()">Криптовалюта</button>
@@ -61,7 +61,7 @@
         <div class="back-btn" onclick="showPaymentMethods()">← К способам оплаты</div>
         <div class="card">
             <h3>Выберите монету</h3>
-            <p style="color:#5C6B63;margin:8px 0 16px;font-size:14px;" id="cryptoAmount">Сумма: 199₽</p>
+            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="cryptoAmount">Сумма: 199₽</p>
             <div class="crypto-grid">
                 <button class="crypto-btn" onclick="payCrypto('USDT')">USDT</button>
                 <button class="crypto-btn" onclick="payCrypto('ETH')">ETH</button>
@@ -99,10 +99,22 @@
             document.getElementById('screen-payment').classList.add('hidden');
             document.getElementById('screen-crypto').classList.remove('hidden');
         }
-        function getTrial(){tg.openTelegramLink(BOT+'trial');}
-        function payStars(){tg.openTelegramLink(BOT+'stars_'+document.getElementById('monthsSelect').value);}
-        function paySBP(){tg.openTelegramLink(BOT+'sbp_'+document.getElementById('monthsSelect').value);}
-        function payCrypto(a){tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);}
+        function getTrial(){
+            tg.openTelegramLink(BOT+'trial');
+            tg.showPopup({title:'Готово',message:'Пробный ключ отправлен в чат с ботом!',buttons:[{type:'ok'}]});
+        }
+        function payStars(){
+            tg.openTelegramLink(BOT+'stars_'+document.getElementById('monthsSelect').value);
+            tg.showPopup({title:'Оплата звёздами',message:'Счёт выставлен в чате с ботом. Откройте чат чтобы оплатить!',buttons:[{type:'ok'}]});
+        }
+        function paySBP(){
+            tg.openTelegramLink(BOT+'sbp_'+document.getElementById('monthsSelect').value);
+            tg.showPopup({title:'Оплата по СБП',message:'Реквизиты отправлены в чат с ботом!',buttons:[{type:'ok'}]});
+        }
+        function payCrypto(a){
+            tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);
+            tg.showPopup({title:'Счёт создан',message:'Счёт отправлен в чат с ботом. Нажмите "Перейти к оплате" в чате!',buttons:[{type:'ok'}]});
+        }
     </script>
 </body>
 </html>
