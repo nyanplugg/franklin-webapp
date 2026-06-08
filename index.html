@@ -28,25 +28,37 @@
         .card.gift { border-color: #4CAF50; }
         .price { font-size: 36px; font-weight: bold; color: #4CAF50; }
         .price span { font-size: 16px; color: #888; }
-        .savings {
-            font-size: 14px;
-            color: #4CAF50;
-            margin-top: 4px;
-        }
+        .savings { font-size: 14px; color: #4CAF50; margin-top: 4px; }
         .features { list-style: none; margin: 15px 0; }
         .features li { padding: 5px 0; }
         .btn {
             width: 100%; padding: 16px; border: none;
             border-radius: 12px; font-size: 16px;
             font-weight: bold; cursor: pointer; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn.green { background: #4CAF50; color: white; }
+        .btn.stars { background: #FFD700; color: #000; }
+        .btn.sbp { background: #1a1a1a; border: 1px solid #4CAF50; color: #4CAF50; }
+        .btn.crypto { background: #F7931A; color: white; }
         .btn.outline { background: transparent; border: 1px solid #4CAF50; color: #4CAF50; }
         .btn:active { transform: scale(0.98); }
         select {
             width: 100%; padding: 12px; background: #2a2a2a;
             color: white; border: 1px solid #3a3a3a;
             border-radius: 12px; font-size: 16px; margin-bottom: 15px;
+        }
+        .crypto-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0;
+        }
+        .crypto-btn {
+            padding: 12px; background: #1a1a1a; border: 1px solid #2a2a2a;
+            border-radius: 12px; text-align: center; cursor: pointer; font-size: 13px; color: #fff;
+        }
+        .crypto-btn:active { border-color: #4CAF50; }
+        .hidden { display: none; }
+        .back-btn {
+            color: #888; cursor: pointer; font-size: 14px; margin-bottom: 10px; display: inline-block;
         }
     </style>
 </head>
@@ -56,40 +68,67 @@
         <p>Свободный интернет без границ</p>
     </div>
 
-    <div class="card gift">
-        <h3>🎁 Пробный период</h3>
-        <p style="margin: 10px 0;">3 дня PREMIUM бесплатно</p>
-        <button class="btn green" onclick="getTrial()">Получить бесплатно</button>
+    <!-- Экран 1: Тарифы -->
+    <div id="screen-plans">
+        <div class="card gift">
+            <h3>🎁 Пробный период</h3>
+            <p style="margin: 10px 0;">3 дня PREMIUM бесплатно</p>
+            <button class="btn green" onclick="getTrial()">Получить бесплатно</button>
+        </div>
+
+        <div class="card">
+            <h3>💎 Premium подписка</h3>
+            <div class="price" id="totalPrice">199<span>₽</span></div>
+            <div class="savings" id="savingsText"></div>
+
+            <select id="monthsSelect" onchange="updatePrice()">
+                <option value="1">1 месяц — 199₽</option>
+                <option value="3">3 месяца — 539₽ (экономия 58₽)</option>
+                <option value="6">6 месяцев — 999₽ (экономия 195₽)</option>
+                <option value="12">12 месяцев — 1799₽ (экономия 589₽)</option>
+            </select>
+
+            <button class="btn green" id="buyBtn" onclick="showPaymentMethods()">Купить за 199₽</button>
+        </div>
     </div>
 
-    <div class="card">
-        <h3>💎 Premium подписка</h3>
-        <div class="price" id="totalPrice">199<span>₽</span></div>
-        <div class="savings" id="savingsText"></div>
-        
-        <select id="monthsSelect" onchange="updatePrice()">
-            <option value="1">1 месяц — 199₽</option>
-            <option value="3">3 месяца — 539₽ (экономия 58₽)</option>
-            <option value="6">6 месяцев — 999₽ (экономия 195₽)</option>
-            <option value="12">12 месяцев — 1799₽ (экономия 589₽)</option>
-        </select>
+    <!-- Экран 2: Способы оплаты -->
+    <div id="screen-payment" class="hidden">
+        <div class="back-btn" onclick="showPlans()">← Назад к тарифам</div>
+        <div class="card">
+            <h3>💳 Выберите способ оплаты</h3>
+            <p style="color: #888; margin: 10px 0;" id="paymentAmount">Сумма: 199₽</p>
 
-        <ul class="features">
-            <li>✅ Обход блокировок РКН</li>
-            <li>✅ Серверы в 15+ странах</li>
-            <li>✅ До 3 устройств</li>
-            <li>✅ HAPP и v2RayTun</li>
-        </ul>
-
-        <button class="btn green" id="buyBtn" onclick="buySubscription()">Купить за 199₽</button>
+            <button class="btn stars" onclick="payStars()">
+                ⭐ Оплатить звёздами Telegram
+            </button>
+            <button class="btn sbp" onclick="paySBP()">
+                💳 СБП (карта)
+            </button>
+            <button class="btn crypto" onclick="showCrypto()">
+                ₿ Криптовалюта
+            </button>
+        </div>
     </div>
 
-    <div class="card">
-        <h3>📋 Как подключить</h3>
-        <p style="color: #888; margin: 10px 0;">1. Скачайте HAPP или v2RayTun</p>
-        <p style="color: #888; margin: 10px 0;">2. Нажмите «Импорт»</p>
-        <p style="color: #888; margin: 10px 0;">3. Вставьте ключ и готово!</p>
-        <button class="btn outline" onclick="openInstructions()">Подробная инструкция</button>
+    <!-- Экран 3: Криптовалюты -->
+    <div id="screen-crypto" class="hidden">
+        <div class="back-btn" onclick="showPaymentMethods()">← К способам оплаты</div>
+        <div class="card">
+            <h3>₿ Выберите монету</h3>
+            <p style="color: #888; margin: 10px 0;" id="cryptoAmount">Сумма: 199₽</p>
+            <div class="crypto-grid">
+                <button class="crypto-btn" onclick="payCrypto('USDT')">💎 USDT</button>
+                <button class="crypto-btn" onclick="payCrypto('ETH')">⟠ ETH</button>
+                <button class="crypto-btn" onclick="payCrypto('TON')">🪙 TON</button>
+                <button class="crypto-btn" onclick="payCrypto('SOL')">🔷 SOL</button>
+                <button class="crypto-btn" onclick="payCrypto('TRX')">🔸 TRX</button>
+                <button class="crypto-btn" onclick="payCrypto('BTC')">₿ BTC</button>
+                <button class="crypto-btn" onclick="payCrypto('LTC')">⚡ LTC</button>
+                <button class="crypto-btn" onclick="payCrypto('BNB')">🟡 BNB</button>
+                <button class="crypto-btn" onclick="payCrypto('USDC')">💲 USDC</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -104,42 +143,62 @@
             const months = document.getElementById('monthsSelect').value;
             const price = PRICES[months];
             const saving = SAVINGS[months];
-            
             document.getElementById('totalPrice').innerHTML = price + '<span>₽</span>';
-            
             if (saving > 0) {
                 document.getElementById('savingsText').textContent = 'Вы экономите ' + saving + '₽';
             } else {
                 document.getElementById('savingsText').textContent = '';
             }
-            
             document.getElementById('buyBtn').textContent = 'Купить за ' + price + '₽';
+        }
+
+        function showPlans() {
+            document.getElementById('screen-plans').classList.remove('hidden');
+            document.getElementById('screen-payment').classList.add('hidden');
+            document.getElementById('screen-crypto').classList.add('hidden');
+        }
+
+        function showPaymentMethods() {
+            const months = document.getElementById('monthsSelect').value;
+            const price = PRICES[months];
+            document.getElementById('paymentAmount').textContent = 'Сумма: ' + price + '₽';
+            document.getElementById('screen-plans').classList.add('hidden');
+            document.getElementById('screen-payment').classList.remove('hidden');
+            document.getElementById('screen-crypto').classList.add('hidden');
+        }
+
+        function showCrypto() {
+            const months = document.getElementById('monthsSelect').value;
+            const price = PRICES[months];
+            document.getElementById('cryptoAmount').textContent = 'Сумма: ' + price + '₽';
+            document.getElementById('screen-payment').classList.add('hidden');
+            document.getElementById('screen-crypto').classList.remove('hidden');
         }
 
         function getTrial() {
             tg.sendData(JSON.stringify({ action: 'get_trial' }));
-            tg.showPopup({
-                title: '🎁 Отлично!',
-                message: 'Пробный ключ на 3 дня придёт в чат с ботом',
-                buttons: [{type: 'ok'}]
-            });
+            tg.showPopup({ title: '🎁 Отлично!', message: 'Пробный ключ на 3 дня придёт в чат с ботом', buttons: [{type: 'ok'}] });
             tg.close();
         }
 
-        function buySubscription() {
+        function payStars() {
             const months = document.getElementById('monthsSelect').value;
             const price = PRICES[months];
-            tg.sendData(JSON.stringify({ action: 'buy', months: months, price: price }));
-            tg.showPopup({
-                title: '💳 Покупка',
-                message: 'Вы будете перенаправлены на оплату ' + price + '₽',
-                buttons: [{type: 'ok'}]
-            });
+            tg.sendData(JSON.stringify({ action: 'pay_stars', months: months, price: price }));
             tg.close();
         }
 
-        function openInstructions() {
-            tg.sendData(JSON.stringify({ action: 'instructions' }));
+        function paySBP() {
+            const months = document.getElementById('monthsSelect').value;
+            const price = PRICES[months];
+            tg.sendData(JSON.stringify({ action: 'pay_sbp', months: months, price: price }));
+            tg.close();
+        }
+
+        function payCrypto(asset) {
+            const months = document.getElementById('monthsSelect').value;
+            const price = PRICES[months];
+            tg.sendData(JSON.stringify({ action: 'pay_crypto', months: months, price: price, asset: asset }));
             tg.close();
         }
     </script>
