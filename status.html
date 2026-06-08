@@ -19,7 +19,6 @@
             min-height: 100vh;
         }
 
-        /* Header */
         .header {
             padding: 28px 20px 20px;
             background: linear-gradient(180deg, #0D1512 0%, #0A0E0C 100%);
@@ -38,7 +37,6 @@
             font-weight: 400;
         }
 
-        /* Tabs */
         .tabs {
             display: flex;
             margin: 16px 16px 0;
@@ -67,14 +65,12 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Content */
         .content {
             padding: 16px;
         }
         .panel { display: none; }
         .panel.active { display: block; }
 
-        /* Status Card */
         .card {
             background: #111714;
             border: 1px solid rgba(255,255,255,0.05);
@@ -114,8 +110,14 @@
             border-radius: 20px;
             font-size: 13px;
         }
+        .card-value.expired {
+            color: #E05555;
+            background: rgba(224, 85, 85, 0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
 
-        /* Progress */
         .progress-section {
             background: #111714;
             border: 1px solid rgba(255,255,255,0.05);
@@ -142,6 +144,12 @@
             border-radius: 3px;
             transition: width 0.4s ease;
         }
+        .progress-fill.warning {
+            background: linear-gradient(90deg, #B8860B, #D4A24E);
+        }
+        .progress-fill.expired {
+            background: linear-gradient(90deg, #8B0000, #E05555);
+        }
         .progress-days {
             text-align: center;
             margin-top: 10px;
@@ -152,7 +160,6 @@
             color: #E8EDE9;
         }
 
-        /* OS Select */
         .os-buttons {
             display: flex;
             gap: 8px;
@@ -178,7 +185,6 @@
             font-weight: 600;
         }
 
-        /* Steps */
         .step {
             background: #111714;
             border: 1px solid rgba(255,255,255,0.05);
@@ -226,9 +232,6 @@
             display: inline-block;
             margin-top: 4px;
         }
-        .step-content a:hover {
-            text-decoration: underline;
-        }
         .step-content .store-link {
             display: block;
             padding: 8px 12px;
@@ -236,6 +239,22 @@
             border-radius: 8px;
             margin-top: 6px;
             font-weight: 500;
+        }
+
+        .no-sub {
+            text-align: center;
+            padding: 40px 20px;
+            color: #5C6B63;
+        }
+        .no-sub .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .no-sub .title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #E8EDE9;
+            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -253,97 +272,22 @@
     <div class="content">
         <!-- Status Panel -->
         <div class="panel active" id="panel-status">
-            <div class="card">
-                <div class="card-row">
-                    <span class="card-label">Пользователь</span>
-                    <span class="card-value" id="userName">—</span>
-                </div>
-                <div class="card-row">
-                    <span class="card-label">Действует до</span>
-                    <span class="card-value" id="expireDate">—</span>
-                </div>
-                <div class="card-row">
-                    <span class="card-label">Статус</span>
-                    <span class="card-value accent" id="subStatus">Активна</span>
-                </div>
-                <div class="card-row">
-                    <span class="card-label">Трафик</span>
-                    <span class="card-value" id="traffic">Безлимит</span>
-                </div>
-                <div class="card-row">
-                    <span class="card-label">Устройства</span>
-                    <span class="card-value" id="devices">—</span>
-                </div>
-            </div>
-
-            <div class="progress-section">
-                <div class="progress-header">
-                    <span>Период использования</span>
-                    <span id="progressPercent">70%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressBar" style="width: 70%;"></div>
-                </div>
-                <div class="progress-days">
-                    Осталось <strong id="daysLeft">21 день</strong>
+            <div id="status-content">
+                <div class="no-sub">
+                    <div class="icon">🔐</div>
+                    <div class="title">Нет активной подписки</div>
+                    <p>Приобретите подписку в боте</p>
                 </div>
             </div>
         </div>
 
         <!-- Setup Panel -->
         <div class="panel" id="panel-setup">
-            <div class="os-buttons">
-                <button class="os-btn selected" onclick="selectOS('android')" id="os-android">Android</button>
-                <button class="os-btn" onclick="selectOS('ios')" id="os-ios">iOS</button>
-            </div>
-
-            <!-- Android -->
-            <div id="steps-android">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        Установите приложение для работы с VPN
-                        <a href="https://play.google.com/store/apps/details?id=com.happ" target="_blank" class="store-link">HAPP — Google Play</a>
-                        <a href="https://play.google.com/store/apps/details?id=com.v2raytun" target="_blank" class="store-link">v2RayTun — Google Play</a>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        Импортируйте конфигурацию в приложение
-                        <a href="happ://import/vless://example" id="happ-link">Открыть в HAPP</a>
-                        <a href="v2raytun://import?url=vless://example" id="v2raytun-link">Открыть в v2RayTun</a>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-done">✓</div>
-                    <div class="step-content">
-                        Откройте приложение и включите подключение. Готово.
-                    </div>
-                </div>
-            </div>
-
-            <!-- iOS -->
-            <div id="steps-ios" style="display: none;">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        Установите приложение из App Store
-                        <a href="https://apps.apple.com/app/v2raytun" target="_blank" class="store-link">v2RayTun — App Store</a>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        Импортируйте конфигурацию
-                        <a href="v2raytun://import?url=vless://example" id="ios-link">Открыть в v2RayTun</a>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-done">✓</div>
-                    <div class="step-content">
-                        Откройте приложение и включите подключение. Готово.
-                    </div>
+            <div id="setup-content">
+                <div class="no-sub">
+                    <div class="icon">🔑</div>
+                    <div class="title">Нет ключа для настройки</div>
+                    <p>Получите ключ в боте</p>
                 </div>
             </div>
         </div>
@@ -354,12 +298,14 @@
         tg.expand();
         tg.ready();
 
-        const user = tg.initDataUnsafe?.user || {};
-        document.getElementById('userName').textContent = user.first_name || 'Пользователь';
-
-        // Пример данных (потом подтянешь из бота)
-        document.getElementById('expireDate').textContent = '29 июня 2026';
-        document.getElementById('devices').textContent = '3 из 3';
+        // Получаем данные из URL (бот передаст их при открытии)
+        const params = new URLSearchParams(window.location.search);
+        const userName = params.get('name') || 'Пользователь';
+        const expireDate = params.get('expire') || '';
+        const daysLeft = parseInt(params.get('days') || '0');
+        const totalDays = parseInt(params.get('total') || '30');
+        const keyValue = params.get('key') || '';
+        const isActive = params.get('active') === '1';
 
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -379,6 +325,148 @@
             document.getElementById('steps-android').style.display = os === 'android' ? 'block' : 'none';
             document.getElementById('steps-ios').style.display = os === 'ios' ? 'block' : 'none';
         }
+
+        // Строим страницу статуса
+        function buildStatus() {
+            if (!isActive || daysLeft <= 0) {
+                document.getElementById('status-content').innerHTML = `
+                    <div class="no-sub">
+                        <div class="icon">🔐</div>
+                        <div class="title">Нет активной подписки</div>
+                        <p>Приобретите подписку в боте</p>
+                    </div>`;
+                return;
+            }
+
+            const percent = Math.round((daysLeft / totalDays) * 100);
+            let statusClass = 'accent';
+            let statusText = 'Активна';
+            let progressClass = '';
+            let progressClassBar = '';
+
+            if (daysLeft <= 3) {
+                statusClass = 'warning';
+                statusText = 'Заканчивается';
+                progressClass = 'warning';
+                progressClassBar = ' warning';
+            }
+
+            const usedDays = totalDays - daysLeft;
+
+            document.getElementById('status-content').innerHTML = `
+                <div class="card">
+                    <div class="card-row">
+                        <span class="card-label">Пользователь</span>
+                        <span class="card-value">${userName}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Действует до</span>
+                        <span class="card-value">${expireDate}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Статус</span>
+                        <span class="card-value ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Трафик</span>
+                        <span class="card-value">Безлимит</span>
+                    </div>
+                    <div class="card-row">
+                        <span class="card-label">Использовано</span>
+                        <span class="card-value">${usedDays} из ${totalDays} дней</span>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Период использования</span>
+                        <span>${percent}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill${progressClassBar}" style="width: ${percent}%;"></div>
+                    </div>
+                    <div class="progress-days">
+                        Осталось <strong>${daysLeft} ${getDaysWord(daysLeft)}</strong>
+                    </div>
+                </div>`;
+        }
+
+        // Строим страницу настройки
+        function buildSetup() {
+            if (!keyValue) {
+                document.getElementById('setup-content').innerHTML = `
+                    <div class="no-sub">
+                        <div class="icon">🔑</div>
+                        <div class="title">Нет ключа</div>
+                        <p>Получите ключ в боте</p>
+                    </div>`;
+                return;
+            }
+
+            document.getElementById('setup-content').innerHTML = `
+                <div class="os-buttons">
+                    <button class="os-btn selected" onclick="selectOS('android')" id="os-android">Android</button>
+                    <button class="os-btn" onclick="selectOS('ios')" id="os-ios">iOS</button>
+                </div>
+
+                <div id="steps-android">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            Установите приложение для работы с VPN
+                            <a href="https://play.google.com/store/apps/details?id=com.happ" target="_blank" class="store-link">HAPP — Google Play</a>
+                            <a href="https://play.google.com/store/apps/details?id=com.v2raytun" target="_blank" class="store-link">v2RayTun — Google Play</a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Импортируйте конфигурацию в приложение
+                            <a href="happ://import/${encodeURIComponent(keyValue)}" class="store-link">Открыть в HAPP</a>
+                            <a href="v2raytun://import?url=${encodeURIComponent(keyValue)}" class="store-link">Открыть в v2RayTun</a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-done">✓</div>
+                        <div class="step-content">
+                            Откройте приложение и включите подключение. Готово.
+                        </div>
+                    </div>
+                </div>
+
+                <div id="steps-ios" style="display: none;">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            Установите приложение из App Store
+                            <a href="https://apps.apple.com/app/v2raytun" target="_blank" class="store-link">v2RayTun — App Store</a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            Импортируйте конфигурацию
+                            <a href="v2raytun://import?url=${encodeURIComponent(keyValue)}" class="store-link">Открыть в v2RayTun</a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-done">✓</div>
+                        <div class="step-content">
+                            Откройте приложение и включите подключение. Готово.
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function getDaysWord(days) {
+            if (days % 10 === 1 && days % 100 !== 11) return 'день';
+            if ([2, 3, 4].includes(days % 10) && ![12, 13, 14].includes(days % 100)) return 'дня';
+            return 'дней';
+        }
+
+        // Строим страницы при загрузке
+        buildStatus();
+        buildSetup();
     </script>
 </body>
 </html>
