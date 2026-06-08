@@ -256,6 +256,41 @@
             color: #E8EDE9;
             margin-bottom: 8px;
         }
+
+        .copy-key {
+            margin-top: 16px;
+            background: #111714;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 16px;
+        }
+        .copy-key textarea {
+            width: 100%;
+            height: 40px;
+            background: #0A0E0C;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            color: #4CAF50;
+            font-size: 11px;
+            padding: 10px;
+            resize: none;
+            font-family: monospace;
+            margin-bottom: 10px;
+        }
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            background: #19231D;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 8px;
+            color: #4CAF50;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .copy-btn:active {
+            background: #1a2a1a;
+        }
     </style>
 </head>
 <body>
@@ -272,24 +307,12 @@
     <div class="content">
         <!-- Status Panel -->
         <div class="panel active" id="panel-status">
-            <div id="status-content">
-                <div class="no-sub">
-                    <div class="icon">🔐</div>
-                    <div class="title">Нет активной подписки</div>
-                    <p>Приобретите подписку в боте</p>
-                </div>
-            </div>
+            <div id="status-content"></div>
         </div>
 
         <!-- Setup Panel -->
         <div class="panel" id="panel-setup">
-            <div id="setup-content">
-                <div class="no-sub">
-                    <div class="icon">🔑</div>
-                    <div class="title">Нет ключа для настройки</div>
-                    <p>Получите ключ в боте</p>
-                </div>
-            </div>
+            <div id="setup-content"></div>
         </div>
     </div>
 
@@ -298,7 +321,7 @@
         tg.expand();
         tg.ready();
 
-        // Получаем данные из URL (бот передаст их при открытии)
+        // Получаем данные из URL
         const params = new URLSearchParams(window.location.search);
         const userName = params.get('name') || 'Пользователь';
         const expireDate = params.get('expire') || '';
@@ -326,7 +349,15 @@
             document.getElementById('steps-ios').style.display = os === 'ios' ? 'block' : 'none';
         }
 
-        // Строим страницу статуса
+        function copyKey() {
+            const textarea = document.getElementById('keyTextarea');
+            textarea.select();
+            document.execCommand('copy');
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = 'Скопировано!';
+            setTimeout(() => { btn.textContent = 'Скопировать ключ'; }, 2000);
+        }
+
         function buildStatus() {
             if (!isActive || daysLeft <= 0) {
                 document.getElementById('status-content').innerHTML = `
@@ -341,13 +372,11 @@
             const percent = Math.round((daysLeft / totalDays) * 100);
             let statusClass = 'accent';
             let statusText = 'Активна';
-            let progressClass = '';
             let progressClassBar = '';
 
             if (daysLeft <= 3) {
                 statusClass = 'warning';
                 statusText = 'Заканчивается';
-                progressClass = 'warning';
                 progressClassBar = ' warning';
             }
 
@@ -391,7 +420,6 @@
                 </div>`;
         }
 
-        // Строим страницу настройки
         function buildSetup() {
             if (!keyValue) {
                 document.getElementById('setup-content').innerHTML = `
@@ -455,6 +483,11 @@
                             Откройте приложение и включите подключение. Готово.
                         </div>
                     </div>
+                </div>
+
+                <div class="copy-key">
+                    <textarea id="keyTextarea" readonly>${keyValue}</textarea>
+                    <button class="copy-btn" id="copyBtn" onclick="copyKey()">Скопировать ключ</button>
                 </div>`;
         }
 
@@ -464,9 +497,9 @@
             return 'дней';
         }
 
-        // Строим страницы при загрузке
         buildStatus();
         buildSetup();
     </script>
 </body>
 </html>
+
