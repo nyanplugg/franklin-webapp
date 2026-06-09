@@ -53,7 +53,7 @@
             <h3>Выберите способ оплаты</h3>
             <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="paymentAmount">Сумма: 199₽</p>
             <button class="btn stars" onclick="payStars()">Telegram Stars</button>
-            <button class="btn sbp" onclick="paySBP()">СБП (карта)</button>
+            <button class="btn sbp" onclick="paySBP()">Карта / СБП</button>
             <button class="btn crypto" onclick="showCrypto()">Криптовалюта</button>
         </div>
     </div>
@@ -108,12 +108,12 @@
             tg.showPopup({title:'Оплата звёздами',message:'Счёт выставлен в чате с ботом. Откройте чат чтобы оплатить!',buttons:[{type:'ok'}]});
         }
         function paySBP(){
-            tg.openTelegramLink(BOT+'sbp_'+document.getElementById('monthsSelect').value);
-            tg.showPopup({title:'Оплата по СБП',message:'Реквизиты отправлены в чат с ботом!',buttons:[{type:'ok'}]});
+            tg.openTelegramLink(BOT+'lava_'+document.getElementById('monthsSelect').value);
+            tg.showPopup({title:'Оплата картой',message:'Счёт создан в чате с ботом. Нажмите «Перейти к оплате»!',buttons:[{type:'ok'}]});
         }
         function payCrypto(a){
             tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);
-            tg.showPopup({title:'Счёт создан',message:'Счёт отправлен в чат с ботом. Нажмите "Перейти к оплате" в чате!',buttons:[{type:'ok'}]});
+            tg.showPopup({title:'Счёт создан',message:'Счёт отправлен в чат с ботом. Нажмите «Перейти к оплате» в чате!',buttons:[{type:'ok'}]});
         }
     </script>
 </body>
