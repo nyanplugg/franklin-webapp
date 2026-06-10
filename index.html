@@ -108,10 +108,9 @@
             tg.showPopup({title:'Оплата звёздами',message:'Счёт выставлен в чате с ботом. Откройте чат чтобы оплатить!',buttons:[{type:'ok'}]});
         }
         function paySBP(){
-    const months = document.getElementById('monthsSelect').value;
-    tg.openTelegramLink('https://t.me/FranklinVPN_bot?start=lava_' + months);
-    tg.showPopup({...});
-}
+            const months = document.getElementById('monthsSelect').value;
+            tg.openTelegramLink('https://t.me/FranklinVPN_bot?start=lava_' + months);
+            tg.showPopup({title:'Оплата картой',message:'Счёт создан в чате с ботом. Нажмите «Перейти к оплате»!',buttons:[{type:'ok'}]});
         }
         function payCrypto(a){
             tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);
