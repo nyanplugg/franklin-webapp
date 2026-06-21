@@ -39,14 +39,14 @@
         <div class="card gift"><h3>Пробный период</h3><p style="color:#5C6B63;margin:8px 0;font-size:14px;">3 дня PREMIUM бесплатно</p><button class="btn green" onclick="getTrial()">Получить бесплатно</button></div>
         <div class="card">
             <h3>Premium подписка</h3>
-            <div class="price" id="totalPrice">199<span>₽</span></div><div class="savings" id="savingsText"></div>
+            <div class="price" id="totalPrice">99<span>₽</span></div>
             <select id="monthsSelect" onchange="updatePrice()">
-                <option value="1">1 месяц — 199₽</option>
-                <option value="3">3 месяца — 539₽ (экономия 58₽)</option>
-                <option value="6">6 месяцев — 999₽ (экономия 195₽)</option>
-                <option value="12">12 месяцев — 1799₽ (экономия 589₽)</option>
+                <option value="1">1 месяц — 99₽</option>
+                <option value="3">3 месяца — 249₽ (экономия 48₽)</option>
+                <option value="6">6 месяцев — 449₽ (экономия 145₽)</option>
+                <option value="12">12 месяцев — 799₽ (экономия 389₽)</option>
             </select>
-            <button class="btn green" id="buyBtn" onclick="showPaymentMethods()">Купить за 199₽</button>
+            <button class="btn green" id="buyBtn" onclick="showPaymentMethods()">Купить за 99₽</button>
         </div>
     </div>
     <div id="screen-payment" class="hidden">
@@ -79,8 +79,8 @@
     </div>
     <script>
         const tg = window.Telegram.WebApp; tg.expand(); tg.ready();
-        const PRICES = {1:199,3:539,6:999,12:1799};
-        const SAVINGS = {1:0,3:58,6:195,12:589};
+        const PRICES = {1:99,3:249,6:449,12:799};
+        const SAVINGS = {1:0,3:48,6:145,12:389};
         const BOT = 'https://t.me/FranklinVPN_bot?start=';
         let currentKey = '';
         
