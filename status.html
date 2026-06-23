@@ -8,54 +8,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0A0E0C;
-            color: #E8EDE9;
-            padding: 0;
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0A0E0C; color: #E8EDE9; padding: 0; max-width: 480px; margin: 0 auto; min-height: 100vh; }
         .header { padding: 28px 20px 20px; background: linear-gradient(180deg, #0D1512 0%, #0A0E0C 100%); border-bottom: 1px solid rgba(76, 175, 80, 0.08); }
-        .header-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; color: #FFFFFF; }
-        .header-subtitle { font-size: 13px; color: #5C6B63; margin-top: 4px; font-weight: 400; }
+        .header-title { font-size: 20px; font-weight: 700; color: #FFFFFF; }
+        .header-subtitle { font-size: 13px; color: #5C6B63; margin-top: 4px; }
         .tabs { display: flex; margin: 16px 16px 0; background: #111714; border-radius: 10px; padding: 3px; border: 1px solid rgba(255,255,255,0.04); }
-        .tab { flex: 1; padding: 11px 0; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #5C6B63; border-radius: 8px; transition: all 0.2s ease; }
-        .tab.active { background: #19231D; color: #4CAF50; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .tab { flex: 1; padding: 11px 0; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: #5C6B63; border-radius: 8px; }
+        .tab.active { background: #19231D; color: #4CAF50; font-weight: 600; }
         .content { padding: 16px; }
         .panel { display: none; }
         .panel.active { display: block; }
-        .card { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 0; overflow: hidden; }
-        .card-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .card { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; overflow: hidden; }
+        .card-row { display: flex; justify-content: space-between; padding: 15px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .card-row:last-child { border-bottom: none; }
-        .card-label { font-size: 14px; color: #5C6B63; font-weight: 400; }
+        .card-label { font-size: 14px; color: #5C6B63; }
         .card-value { font-size: 14px; font-weight: 600; color: #E8EDE9; }
         .card-value.accent { color: #4CAF50; background: rgba(76, 175, 80, 0.08); padding: 4px 12px; border-radius: 20px; font-size: 13px; }
         .card-value.warning { color: #D4A24E; background: rgba(212, 162, 78, 0.08); padding: 4px 12px; border-radius: 20px; font-size: 13px; }
         .progress-section { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 18px; margin-top: 12px; }
         .progress-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 12px; color: #5C6B63; }
         .progress-bar { height: 6px; background: #1A211E; border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #3D8C40, #4CAF50); border-radius: 3px; transition: width 0.4s ease; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3D8C40, #4CAF50); border-radius: 3px; }
         .progress-days { text-align: center; margin-top: 10px; font-size: 13px; color: #5C6B63; }
         .progress-days strong { color: #E8EDE9; }
-        .os-buttons { display: flex; gap: 8px; margin-bottom: 16px; }
-        .os-btn { flex: 1; padding: 14px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; background: #111714; color: #5C6B63; font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.2s ease; }
-        .os-btn.selected { border-color: rgba(76, 175, 80, 0.3); background: #19231D; color: #4CAF50; font-weight: 600; }
-        .step { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; }
-        .step-number { width: 28px; height: 28px; min-width: 28px; background: #19231D; border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #4CAF50; }
-        .step-done { width: 28px; min-width: 28px; height: 28px; background: rgba(76, 175, 80, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .step-content { font-size: 14px; line-height: 1.5; color: #9BAAA2; }
-        .step-content a { color: #4CAF50; text-decoration: none; font-weight: 500; display: inline-block; margin-top: 4px; }
-        .step-content .store-link { display: block; padding: 8px 12px; background: #19231D; border-radius: 8px; margin-top: 6px; font-weight: 500; }
         .no-sub { text-align: center; padding: 40px 20px; color: #5C6B63; }
         .no-sub .icon { font-size: 48px; margin-bottom: 16px; }
         .no-sub .title { font-size: 18px; font-weight: 600; color: #E8EDE9; margin-bottom: 8px; }
         .copy-key { margin-top: 16px; background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 16px; }
         .copy-key textarea { width: 100%; height: 40px; background: #0A0E0C; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; color: #4CAF50; font-size: 11px; padding: 10px; resize: none; font-family: monospace; margin-bottom: 10px; }
         .copy-btn { width: 100%; padding: 12px; background: #19231D; border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 8px; color: #4CAF50; font-size: 14px; font-weight: 500; cursor: pointer; }
-        .copy-btn:active { background: #1a2a1a; }
-        .download-btn { display: block; width: 100%; padding: 12px; background: #19231D; border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 8px; color: #4CAF50; font-size: 14px; font-weight: 500; cursor: pointer; text-align: center; margin-top: 6px; text-decoration: none; }
+        .store-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px; background: #19231D; border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 10px; color: #4CAF50; font-size: 14px; font-weight: 500; cursor: pointer; margin-bottom: 6px; text-decoration: none; }
+        .store-btn .icon { font-size: 20px; }
+        .section-title { font-size: 14px; font-weight: 600; color: #E8EDE9; margin: 16px 0 8px; }
+        .step { background: #111714; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; }
+        .step-number { width: 28px; height: 28px; min-width: 28px; background: #19231D; border: 1px solid rgba(76, 175, 80, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #4CAF50; }
+        .step-done { width: 28px; min-width: 28px; height: 28px; background: rgba(76, 175, 80, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .step-content { font-size: 14px; line-height: 1.5; color: #9BAAA2; }
+        .step-content a { color: #4CAF50; }
     </style>
 </head>
 <body>
@@ -66,7 +55,6 @@
     <div class="tabs">
         <button class="tab active" onclick="switchTab('status')">Состояние</button>
         <button class="tab" onclick="switchTab('setup')">Подключение</button>
-        <button class="tab" onclick="switchTab('download')">Скачать</button>
     </div>
     <div class="content">
         <div class="panel active" id="panel-status">
@@ -74,19 +62,6 @@
         </div>
         <div class="panel" id="panel-setup">
             <div id="setup-content"></div>
-        </div>
-        <div class="panel" id="panel-download">
-            <div class="card">
-                <div class="card-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
-                    <span class="card-label" style="font-size:16px;font-weight:600;color:#E8EDE9;">Скачать приложение</span>
-                    <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.happ.surf" target="_blank">📱 HAPP (Android)</a>
-                    <a class="download-btn" href="https://apps.apple.com/app/happ/id6478112548" target="_blank">📱 HAPP (iOS)</a>
-                    <a class="download-btn" href="https://github.com/2dust/v2rayN/releases" target="_blank">💻 HAPP (Windows)</a>
-                    <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank">📱 v2RayTun (Android)</a>
-                    <a class="download-btn" href="https://apps.apple.com/app/v2raytun/id6476624165" target="_blank">📱 v2RayTun (iOS)</a>
-                    <a class="download-btn" href="https://github.com/2dust/v2rayN/releases" target="_blank">💻 v2RayN (Windows)</a>
-                </div>
-            </div>
         </div>
     </div>
     <script>
@@ -105,30 +80,17 @@
             if (tab === 'status') {
                 document.querySelector('.tab:first-child').classList.add('active');
                 document.getElementById('panel-status').classList.add('active');
-            } else if (tab === 'setup') {
-                document.querySelector('.tab:nth-child(2)').classList.add('active');
-                document.getElementById('panel-setup').classList.add('active');
             } else {
                 document.querySelector('.tab:last-child').classList.add('active');
-                document.getElementById('panel-download').classList.add('active');
+                document.getElementById('panel-setup').classList.add('active');
             }
         }
 
-        function selectOS(os) {
-            document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('selected'));
-            document.getElementById('os-' + os).classList.add('selected');
-            document.getElementById('steps-android').style.display = os === 'android' ? 'block' : 'none';
-            document.getElementById('steps-ios').style.display = os === 'ios' ? 'block' : 'none';
-            document.getElementById('steps-windows').style.display = os === 'windows' ? 'block' : 'none';
-        }
-
         function copyKey() {
-            const textarea = document.getElementById('keyTextarea');
-            textarea.select();
+            document.getElementById('keyTextarea').select();
             document.execCommand('copy');
-            const btn = document.getElementById('copyBtn');
-            btn.textContent = 'Скопировано!';
-            setTimeout(() => { btn.textContent = 'Скопировать ключ'; }, 2000);
+            document.getElementById('copyBtn').textContent = 'Скопировано!';
+            setTimeout(() => { document.getElementById('copyBtn').textContent = 'Скопировать ключ'; }, 2000);
         }
 
         function buildStatus() {
@@ -137,20 +99,19 @@
                 return;
             }
             const percent = Math.round((daysLeft / totalDays) * 100);
-            let statusClass = 'accent', statusText = 'Активна', progressClassBar = '';
-            if (daysLeft <= 3) { statusClass = 'warning'; statusText = 'Заканчивается'; progressClassBar = ' warning'; }
-            const usedDays = totalDays - daysLeft;
+            let sc = 'accent', st = 'Активна', pb = '';
+            if (daysLeft <= 3) { sc = 'warning'; st = 'Заканчивается'; pb = ' warning'; }
             document.getElementById('status-content').innerHTML = `
                 <div class="card">
                     <div class="card-row"><span class="card-label">Пользователь</span><span class="card-value">${userName}</span></div>
                     <div class="card-row"><span class="card-label">Действует до</span><span class="card-value">${expireDate}</span></div>
-                    <div class="card-row"><span class="card-label">Статус</span><span class="card-value ${statusClass}">${statusText}</span></div>
+                    <div class="card-row"><span class="card-label">Статус</span><span class="card-value ${sc}">${st}</span></div>
                     <div class="card-row"><span class="card-label">Трафик</span><span class="card-value">Безлимит</span></div>
-                    <div class="card-row"><span class="card-label">Использовано</span><span class="card-value">${usedDays} из ${totalDays} дней</span></div>
+                    <div class="card-row"><span class="card-label">Использовано</span><span class="card-value">${totalDays - daysLeft} из ${totalDays} дней</span></div>
                 </div>
                 <div class="progress-section">
                     <div class="progress-header"><span>Период использования</span><span>${percent}%</span></div>
-                    <div class="progress-bar"><div class="progress-fill${progressClassBar}" style="width: ${percent}%;"></div></div>
+                    <div class="progress-bar"><div class="progress-fill${pb}" style="width:${percent}%;"></div></div>
                     <div class="progress-days">Осталось <strong>${daysLeft} ${getDaysWord(daysLeft)}</strong></div>
                 </div>`;
         }
@@ -161,32 +122,26 @@
                 return;
             }
             document.getElementById('setup-content').innerHTML = `
-                <div class="os-buttons">
-                    <button class="os-btn selected" onclick="selectOS('android')" id="os-android">Android</button>
-                    <button class="os-btn" onclick="selectOS('ios')" id="os-ios">iOS</button>
-                    <button class="os-btn" onclick="selectOS('windows')" id="os-windows">Windows</button>
-                </div>
-                <div id="steps-android">
-                    <div class="step"><div class="step-number">1</div><div class="step-content">Установите HAPP или v2RayTun<a href="https://play.google.com/store/apps/details?id=com.happ.surf" target="_blank" class="store-link">HAPP — Google Play</a><a href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank" class="store-link">v2RayTun — Google Play</a></div></div>
-                    <div class="step"><div class="step-number">2</div><div class="step-content">Импортируйте ключ<a href="happ://import/${encodeURIComponent(keyValue)}" class="store-link">Открыть в HAPP</a><a href="v2raytun://import?url=${encodeURIComponent(keyValue)}" class="store-link">Открыть в v2RayTun</a></div></div>
-                    <div class="step"><div class="step-done">✓</div><div class="step-content">Готово! Включите подключение.</div></div>
-                </div>
-                <div id="steps-ios" style="display:none;">
-                    <div class="step"><div class="step-number">1</div><div class="step-content">Установите HAPP или v2RayTun<a href="https://apps.apple.com/app/happ/id6478112548" target="_blank" class="store-link">HAPP — App Store</a><a href="https://apps.apple.com/app/v2raytun/id6476624165" target="_blank" class="store-link">v2RayTun — App Store</a></div></div>
-                    <div class="step"><div class="step-number">2</div><div class="step-content">Импортируйте ключ<a href="happ://import/${encodeURIComponent(keyValue)}" class="store-link">Открыть в HAPP</a><a href="v2raytun://import?url=${encodeURIComponent(keyValue)}" class="store-link">Открыть в v2RayTun</a></div></div>
-                    <div class="step"><div class="step-done">✓</div><div class="step-content">Готово! Включите подключение.</div></div>
-                </div>
-                <div id="steps-windows" style="display:none;">
-                    <div class="step"><div class="step-number">1</div><div class="step-content">Скачайте v2RayN<a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="store-link">v2RayN — GitHub</a></div></div>
-                    <div class="step"><div class="step-number">2</div><div class="step-content">Скопируйте ключ и импортируйте в v2RayN</div></div>
-                    <div class="step"><div class="step-done">✓</div><div class="step-content">Готово! Включите подключение.</div></div>
-                </div>
+                <div class="section-title">📱 Android</div>
+                <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank"><span class="icon">📦</span> HAPP — Google Play</a>
+                <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.v2raytun.android" target="_blank"><span class="icon">📦</span> v2RayTun — Google Play</a>
+                <div class="step"><div class="step-number">1</div><div class="step-content">Скачайте приложение по кнопке выше</div></div>
+                <div class="step"><div class="step-number">2</div><div class="step-content">Нажмите для импорта ключа:<br><a href="happ://import/${encodeURIComponent(keyValue)}">Открыть в HAPP</a> &nbsp;|&nbsp; <a href="v2raytun://import?url=${encodeURIComponent(keyValue)}">Открыть в v2RayTun</a></div></div>
+                <div class="step"><div class="step-done">✓</div><div class="step-content">Включите подключение. Готово!</div></div>
+
+                <div class="section-title">🍎 iOS</div>
+                <a class="store-btn" href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215?l=ru" target="_blank"><span class="icon">📦</span> HAPP — App Store</a>
+                <a class="store-btn" href="https://apps.apple.com/us/app/v2raytun/id6476628951?l=ru" target="_blank"><span class="icon">📦</span> v2RayTun — App Store</a>
+                <div class="step"><div class="step-number">1</div><div class="step-content">Скачайте приложение по кнопке выше</div></div>
+                <div class="step"><div class="step-number">2</div><div class="step-content">Нажмите для импорта ключа:<br><a href="happ://import/${encodeURIComponent(keyValue)}">Открыть в HAPP</a> &nbsp;|&nbsp; <a href="v2raytun://import?url=${encodeURIComponent(keyValue)}">Открыть в v2RayTun</a></div></div>
+                <div class="step"><div class="step-done">✓</div><div class="step-content">Включите подключение. Готово!</div></div>
+
                 <div class="copy-key"><textarea id="keyTextarea" readonly>${keyValue}</textarea><button class="copy-btn" id="copyBtn" onclick="copyKey()">Скопировать ключ</button></div>`;
         }
 
-        function getDaysWord(days) {
-            if (days % 10 === 1 && days % 100 !== 11) return 'день';
-            if ([2, 3, 4].includes(days % 10) && ![12, 13, 14].includes(days % 100)) return 'дня';
+        function getDaysWord(d) {
+            if (d % 10 === 1 && d % 100 !== 11) return 'день';
+            if ([2,3,4].includes(d % 10) && ![12,13,14].includes(d % 100)) return 'дня';
             return 'дней';
         }
 
