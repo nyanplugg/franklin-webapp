@@ -21,6 +21,7 @@
         .btn.stars { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.sbp { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
         .btn.crypto { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; }
+        .btn.download { background: #19231D; border: 1px solid rgba(76, 175, 80, 0.25); color: #4CAF50; font-size: 14px; padding: 12px; }
         .btn:active { transform: scale(0.98); opacity: 0.9; }
         select { width: 100%; padding: 14px; background: #1A211E; color: #E8EDE9; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; font-size: 15px; margin-bottom: 15px; }
         .crypto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
@@ -29,8 +30,6 @@
         .hidden { display: none; }
         .back-btn { color: #4CAF50; cursor: pointer; font-size: 18px; margin-bottom: 15px; display: inline-block; padding: 12px 0; font-weight: 600; text-decoration: none; }
         h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
-        .open-btn { background: #19231D; border: 1px solid #4CAF50; color: #4CAF50; width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin: 10px 0; text-align: center; }
-        .key-text { background: #0A0E0C; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; font-size: 11px; color: #4CAF50; word-break: break-all; margin: 10px 0; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -39,7 +38,7 @@
         <div class="card gift"><h3>Пробный период</h3><p style="color:#5C6B63;margin:8px 0;font-size:14px;">3 дня PREMIUM бесплатно</p><button class="btn green" onclick="getTrial()">Получить бесплатно</button></div>
         <div class="card">
             <h3>Premium подписка</h3>
-            <div class="price" id="totalPrice">99<span>₽</span></div>
+            <div class="price" id="totalPrice">99<span>₽</span></div><div class="savings" id="savingsText"></div>
             <select id="monthsSelect" onchange="updatePrice()">
                 <option value="1">1 месяц — 99₽</option>
                 <option value="3">3 месяца — 249₽ (экономия 48₽)</option>
@@ -48,12 +47,21 @@
             </select>
             <button class="btn green" id="buyBtn" onclick="showPaymentMethods()">Купить за 99₽</button>
         </div>
+        <div class="card">
+            <h3>Скачать приложение</h3>
+            <button class="btn download" onclick="window.open('https://play.google.com/store/apps/details?id=com.happ.surf')">📱 HAPP (Android)</button>
+            <button class="btn download" onclick="window.open('https://apps.apple.com/app/happ/id6478112548')">📱 HAPP (iOS)</button>
+            <button class="btn download" onclick="window.open('https://github.com/2dust/v2rayN/releases')">💻 HAPP (Windows)</button>
+            <button class="btn download" onclick="window.open('https://play.google.com/store/apps/details?id=com.v2raytun.android')">📱 v2RayTun (Android)</button>
+            <button class="btn download" onclick="window.open('https://apps.apple.com/app/v2raytun/id6476624165')">📱 v2RayTun (iOS)</button>
+            <button class="btn download" onclick="window.open('https://github.com/2dust/v2rayN/releases')">💻 v2RayN (Windows)</button>
+        </div>
     </div>
     <div id="screen-payment" class="hidden">
         <div class="back-btn" onclick="showPlans()">← Назад к тарифам</div>
         <div class="card">
             <h3>Выберите способ оплаты</h3>
-            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="paymentAmount">Сумма: 199₽</p>
+            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="paymentAmount">Сумма: 99₽</p>
             <button class="btn stars" onclick="payStars()">Telegram Stars</button>
             <button class="btn sbp" onclick="paySBP()">Карта / СБП</button>
             <button class="btn crypto" onclick="showCrypto()">Криптовалюта</button>
@@ -63,7 +71,7 @@
         <div class="back-btn" onclick="showPaymentMethods()">← К способам оплаты</div>
         <div class="card">
             <h3>Выберите монету</h3>
-            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="cryptoAmount">Сумма: 199₽</p>
+            <p style="color:#5C6B63;margin:8px 0 20px;font-size:15px;" id="cryptoAmount">Сумма: 99₽</p>
             <div class="crypto-grid">
                 <button class="crypto-btn" onclick="payCrypto('USDT')">USDT</button>
                 <button class="crypto-btn" onclick="payCrypto('ETH')">ETH</button>
@@ -82,7 +90,6 @@
         const PRICES = {1:99,3:249,6:449,12:799};
         const SAVINGS = {1:0,3:48,6:145,12:389};
         const BOT = 'https://t.me/FranklinVPN_bot?start=';
-        let currentKey = '';
         
         function updatePrice(){
             const m=document.getElementById('monthsSelect').value;
