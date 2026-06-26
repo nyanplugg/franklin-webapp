@@ -118,8 +118,9 @@
         }
         function paySBP(){
             const months = document.getElementById('monthsSelect').value;
-            tg.openTelegramLink('https://t.me/FranklinVPN_bot?start=lava_' + months);
-            tg.showPopup({title:'Оплата картой',message:'Счёт создан в чате с ботом. Нажмите «Перейти к оплате»!',buttons:[{type:'ok'}]});
+            const price = PRICES[months];
+            tg.sendData(JSON.stringify({ action: 'pay_lava', months: months, price: price }));
+            tg.close();
         }
         function payCrypto(a){
             tg.openTelegramLink(BOT+'crypto_'+document.getElementById('monthsSelect').value+'_'+a);
